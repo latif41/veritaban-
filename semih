@@ -1,0 +1,36 @@
+require 'sqlite3'
+
+begin
+
+	db=SQLite3::Database.open "veri.db" #varolan Database
+
+# db=SQLite3::Database.new ":memory:" #ikiisnden birini kullan.
+
+	db.execute "CREATE TABLE IF NOT EXISTS Cars (Id INTEGER PRIMARY KEY, Name TEXT, Price INT)" #eğer yoksa tabloyu oluştur. 3 tane field var(id,name,price) cars tablo adı.
+
+	db.execute "INSERT INTO Cars VALUES (1,'Audi',52642)"
+	db.execute "INSERT INTO Cars VALUES (2,'Merceders',32000)"
+	db.execute "INSERT INTO Cars VALUES (3,'Volvo',45000)"
+
+
+	db.execute "UPDATE Cars SET Name='Fiat' WHERE Id=1"
+	db.execute "DELETE FROM Cars WHERE Id=3"
+
+
+	rescue SQLite3::Exception => e #exception hata ayıklamadır
+
+		puts "exception occured"
+
+		puts e
+
+ensure #emin olmak
+
+db.close if db
+
+end
+
+
+
+
+
+
