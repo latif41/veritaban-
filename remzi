@@ -1,0 +1,35 @@
+require 'sqlite3'
+begin
+  db=SQLite3::Database.open"test.db"
+  #db=SQLite3::Databese.new ":memory:"
+  db.execute "CREATE TABLE IF NOT EXISTS Cars (Id INTEGER PRIMARY KEY, Name TEXT, Price INT)"
+  db.execute "INSERT INTO Cars VALUES (1,"Audi","52642")"
+  db.execute "INSERT INTO Cars VALUES (2,"Fiat","50000")"
+  db.execute "INSERT INTO Cars VALUES (3,"Audi","60000")"
+
+  
+  
+rescue SQLite3::Exception => e 
+  puts "exception occured"
+  puts e 
+  
+ensure #emin olmak
+  db.close if db
+end
+
+#LİSTELEME-1
+  rows=db.execute "SELECT * FROM Cars WHERE Prices=50000"
+  rows.each db|row|
+  printf ("%s%s%s\n",row|'Id'|,row|'Name'|,row|'Price'|)
+  
+#LİSTELEME-2
+rows=db.execute "SELECT Id FROM Cars WHERE Prices=50000"
+  rows.each db|row|
+  printf ("%s\n",row|'Id')
+
+
+#GÜNCELLEME
+db.execute"UPDATE Cars SET Name="Toyoto" WHERE Id=1"
+
+#SİLME
+db.execute"DELETE FROM Cars WHERE Id=2"
